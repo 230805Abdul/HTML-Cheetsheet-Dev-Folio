@@ -4,7 +4,7 @@
 
 ---
 
-## 📖 What Is This?
+## What Is This?
 
 This is a **single-file HTML learning kit** built for anyone who wants to go from knowing basic HTML tags to confidently using every major one in a real project. It has three parts, accessible from a top navigation bar:
 
@@ -16,7 +16,7 @@ This is a **single-file HTML learning kit** built for anyone who wants to go fro
 
 ---
 
-## 🚀 The Project — DevFolio
+## The Project — DevFolio
 
 You will build **DevFolio**, a complete personal portfolio website for a fictional developer named *Alex Rivera*. The project is split into **10 progressive tasks**, each targeting a specific group of HTML tags.
 
@@ -105,7 +105,7 @@ Scatter advanced semantic tags throughout the page:
 
 ---
 
-## 🏷️ Tag Coverage by Category
+## Tag Coverage by Category
 
 | Category | Tags Covered |
 |----------|-------------|
@@ -120,11 +120,11 @@ Scatter advanced semantic tags throughout the page:
 | Forms | `<form>` `<input>` `<label>` `<button>` `<select>` `<option>` `<optgroup>` `<textarea>` `<fieldset>` `<legend>` `<datalist>` `<output>` `<progress>` `<meter>` |
 | Interactive | `<details>` `<summary>` `<dialog>` `<template>` |
 | Figure | `<figure>` `<figcaption>` |
-| Deprecated ⚠️ | `<font>` `<center>` `<marquee>` `<blink>` `<strike>` `<tt>` `<acronym>` |
+| Deprecated  | `<font>` `<center>` `<marquee>` `<blink>` `<strike>` `<tt>` `<acronym>` |
 
 ---
 
-## 💡 Tips for Beginners
+## Tips for Beginners
 
 - Always validate your HTML at [validator.w3.org](https://validator.w3.org) after each task.
 - Use VS Code with the **Prettier** extension to auto-format your HTML.
@@ -134,7 +134,7 @@ Scatter advanced semantic tags throughout the page:
 
 ---
 
-## 🔖 Semantic HTML — Why It Matters
+## Semantic HTML — Why It Matters
 
 Using the right tag for the right purpose isn't just about correctness — it has real-world impact:
 
@@ -147,7 +147,7 @@ Using the right tag for the right purpose isn't just about correctness — it ha
 
 ---
 
-## 📚 Further Learning
+## Further Learning
 
 | Resource | Link |
 |----------|------|
@@ -159,7 +159,7 @@ Using the right tag for the right purpose isn't just about correctness — it ha
 
 ---
 
-## 📄 License
+## License
 
 This project is for **educational use only**. Feel free to use, share, and modify it for learning purposes.
 
