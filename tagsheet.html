@@ -1,0 +1,1184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HTML Cheat Sheet & Project</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=JetBrains+Mono:wght@400;600&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0d0d0d;
+      --surface: #141414;
+      --card: #1a1a1a;
+      --border: #2a2a2a;
+      --accent: #f0e040;
+      --accent2: #ff6b35;
+      --accent3: #4af0b0;
+      --text: #e8e8e8;
+      --muted: #888;
+      --tag-bg: #1f1f1f;
+      --tag-border: #333;
+      --done: #4af0b0;
+      --todo: #f0e040;
+      --font-head: 'Syne', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --font-body: 'Lora', serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      min-height: 100vh;
+    }
+
+    /* ── TOP NAV ── */
+    .top-nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(13,13,13,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 0;
+      padding: 0 2rem;
+      height: 56px;
+    }
+    .top-nav button {
+      background: none; border: none; color: var(--muted);
+      font-family: var(--font-head); font-size: 0.82rem; letter-spacing: 0.08em;
+      text-transform: uppercase; cursor: pointer;
+      padding: 0 1.2rem; height: 100%;
+      border-bottom: 2px solid transparent;
+      transition: color .2s, border-color .2s;
+    }
+    .top-nav button:hover, .top-nav button.active {
+      color: var(--accent); border-bottom-color: var(--accent);
+    }
+    .top-nav .logo {
+      font-family: var(--font-head); font-weight: 800; font-size: 1rem;
+      color: var(--accent); margin-right: 2rem; white-space: nowrap;
+    }
+
+    /* ── PANELS ── */
+    .panel { display: none; animation: fadeIn .3s ease; }
+    .panel.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      padding: 3.5rem 3rem 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .page-header .eyebrow {
+      font-family: var(--font-mono); font-size: 0.72rem;
+      color: var(--accent2); letter-spacing: 0.2em; text-transform: uppercase;
+      margin-bottom: 0.6rem;
+    }
+    .page-header h1 {
+      font-family: var(--font-head); font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 800; line-height: 1.1;
+      color: #fff;
+    }
+    .page-header p {
+      margin-top: 0.8rem; color: var(--muted);
+      font-size: 1rem; max-width: 600px; line-height: 1.7;
+    }
+
+    /* ── CHEAT SHEET ── */
+    .cs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1px;
+      background: var(--border);
+    }
+    .cs-section {
+      background: var(--card);
+      padding: 1.6rem 1.8rem;
+    }
+    .cs-section h2 {
+      font-family: var(--font-head); font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--accent2); margin-bottom: 1rem;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .cs-section h2::after {
+      content: ''; flex: 1; height: 1px; background: var(--border);
+    }
+    .tag-list { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .tag {
+      display: inline-flex; flex-direction: column;
+      background: var(--tag-bg); border: 1px solid var(--tag-border);
+      border-radius: 4px; padding: 0.35rem 0.6rem;
+      font-family: var(--font-mono); font-size: 0.72rem;
+      color: var(--accent3); cursor: default;
+      transition: border-color .15s, background .15s;
+      position: relative;
+    }
+    .tag:hover { border-color: var(--accent3); background: #1d2e2a; }
+    .tag .desc {
+      font-family: var(--font-body); font-size: 0.6rem;
+      color: var(--muted); font-style: italic; margin-top: 1px;
+    }
+    .tag.deprecated { color: #884444; border-color: #3a2222; }
+    .tag.deprecated .desc { color: #5a3333; }
+
+    /* ── PROJECT PANEL ── */
+    .project-intro {
+      padding: 2rem 3rem;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(135deg, #141414 0%, #0f1a14 100%);
+    }
+    .project-intro p { color: var(--muted); line-height: 1.8; max-width: 700px; }
+    .project-intro .stack {
+      display: flex; gap: 0.5rem; margin-top: 1rem; flex-wrap: wrap;
+    }
+    .badge {
+      font-family: var(--font-mono); font-size: 0.68rem;
+      padding: 0.2rem 0.6rem; border-radius: 999px;
+      border: 1px solid;
+    }
+    .badge.html { color: #ff6b35; border-color: #ff6b3540; background: #ff6b3510; }
+    .badge.css  { color: #4af0b0; border-color: #4af0b040; background: #4af0b010; }
+
+    /* ── TASKS ── */
+    .tasks-container { padding: 2rem 3rem; }
+    .progress-bar-wrap {
+      margin-bottom: 2rem;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 8px; padding: 1.2rem 1.5rem;
+    }
+    .progress-bar-wrap .label {
+      font-family: var(--font-mono); font-size: 0.72rem; color: var(--muted);
+      margin-bottom: 0.6rem; display: flex; justify-content: space-between;
+    }
+    .progress-bar-wrap .label span { color: var(--accent3); }
+    .pbar-track {
+      height: 6px; background: var(--border); border-radius: 999px; overflow: hidden;
+    }
+    .pbar-fill {
+      height: 100%; width: 0%; background: var(--accent3);
+      border-radius: 999px; transition: width .5s ease;
+    }
+
+    .task-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      overflow: hidden;
+      transition: border-color .2s;
+    }
+    .task-card:hover { border-color: #3a3a3a; }
+    .task-card.completed { border-color: #1a3a2a; }
+
+    .task-header {
+      display: flex; align-items: center; gap: 1rem;
+      padding: 1.2rem 1.5rem; cursor: pointer;
+      user-select: none;
+    }
+    .task-num {
+      font-family: var(--font-mono); font-size: 0.65rem;
+      color: var(--muted); min-width: 28px;
+    }
+    .task-title {
+      font-family: var(--font-head); font-size: 1rem; font-weight: 700;
+      flex: 1; color: #fff;
+    }
+    .task-card.completed .task-title { color: var(--done); }
+    .task-tags-mini { display: flex; gap: 0.3rem; flex-wrap: wrap; }
+    .task-tags-mini span {
+      font-family: var(--font-mono); font-size: 0.6rem;
+      color: var(--accent3); background: #1a2e28;
+      border: 1px solid #2a4a3a; border-radius: 3px; padding: 0.1rem 0.35rem;
+    }
+    .task-status {
+      font-family: var(--font-mono); font-size: 0.65rem;
+      padding: 0.2rem 0.55rem; border-radius: 999px;
+      border: 1px solid;
+    }
+    .task-status.todo   { color: var(--todo); border-color: #3a380a; background: #22200a; }
+    .task-status.done   { color: var(--done); border-color: #1a3a2a; background: #0a1a14; }
+    .task-arrow { color: var(--muted); font-size: 0.8rem; transition: transform .2s; }
+    .task-card.open .task-arrow { transform: rotate(90deg); }
+
+    .task-body {
+      display: none; padding: 0 1.5rem 1.5rem;
+      border-top: 1px solid var(--border);
+    }
+    .task-card.open .task-body { display: block; }
+
+    .task-desc {
+      margin-top: 1rem; color: var(--muted); line-height: 1.75;
+      font-size: 0.92rem;
+    }
+    .task-desc strong { color: var(--text); }
+
+    .code-block {
+      margin-top: 1rem;
+      background: #0a0a0a; border: 1px solid var(--border);
+      border-radius: 6px; padding: 1rem 1.2rem;
+      font-family: var(--font-mono); font-size: 0.75rem;
+      line-height: 1.6; color: #c8c8c8;
+      overflow-x: auto; position: relative;
+    }
+    .code-block .kw { color: #f0e040; }
+    .code-block .attr { color: #4af0b0; }
+    .code-block .val { color: #ff9d7a; }
+    .code-block .cm { color: #555; font-style: italic; }
+    .code-label {
+      font-family: var(--font-mono); font-size: 0.6rem;
+      color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em;
+      margin-top: 0.8rem; margin-bottom: 0.3rem;
+    }
+    .checklist { margin-top: 1rem; list-style: none; }
+    .checklist li {
+      font-family: var(--font-mono); font-size: 0.75rem;
+      color: var(--muted); padding: 0.3rem 0;
+      display: flex; align-items: baseline; gap: 0.5rem;
+    }
+    .checklist li::before { content: '□'; color: var(--todo); flex-shrink: 0; }
+    .complete-btn {
+      margin-top: 1.2rem;
+      background: none; border: 1px solid var(--border);
+      color: var(--muted); font-family: var(--font-mono); font-size: 0.72rem;
+      padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer;
+      transition: all .2s; letter-spacing: 0.05em;
+    }
+    .complete-btn:hover { border-color: var(--accent3); color: var(--accent3); }
+    .task-card.completed .complete-btn {
+      border-color: #1a3a2a; color: var(--done);
+      cursor: default; pointer-events: none;
+    }
+
+    /* ── QUICK REFERENCE TABLE ── */
+    .ref-section { padding: 2rem 3rem; }
+    .ref-table {
+      width: 100%; border-collapse: collapse;
+      font-size: 0.82rem;
+    }
+    .ref-table th {
+      font-family: var(--font-mono); font-size: 0.68rem;
+      text-transform: uppercase; letter-spacing: 0.12em;
+      color: var(--muted); text-align: left;
+      padding: 0.6rem 1rem; border-bottom: 1px solid var(--border);
+    }
+    .ref-table td {
+      padding: 0.55rem 1rem; border-bottom: 1px solid #1a1a1a;
+      vertical-align: top;
+    }
+    .ref-table tr:hover td { background: #161616; }
+    .ref-table .t { font-family: var(--font-mono); color: var(--accent3); font-size: 0.78rem; }
+    .ref-table .cat {
+      font-family: var(--font-mono); font-size: 0.6rem;
+      padding: 0.1rem 0.4rem; border-radius: 3px; border: 1px solid;
+    }
+    .ref-table .cat.s  { color: #4af0b0; border-color: #1a3a2a; }
+    .ref-table .cat.t  { color: #f0e040; border-color: #3a380a; }
+    .ref-table .cat.f  { color: #ff9d7a; border-color: #3a2010; }
+    .ref-table .cat.m  { color: #c084fc; border-color: #2a1a3a; }
+    .ref-table .cat.d  { color: #f87171; border-color: #3a1414; }
+    .ref-table .cat.e  { color: #60a5fa; border-color: #0a1e3a; }
+
+    /* scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 3px; }
+
+    @media (max-width: 700px) {
+      .page-header, .tasks-container, .ref-section, .project-intro { padding: 1.5rem 1.2rem; }
+      .cs-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ TOP NAV ══ -->
+<nav class="top-nav">
+  <div class="logo">⟨HTML⟩</div>
+  <button class="active" onclick="showPanel('cheatsheet', this)">Cheat Sheet</button>
+  <button onclick="showPanel('project', this)">🚀 Project</button>
+  <button onclick="showPanel('quickref', this)">Quick Ref</button>
+</nav>
+
+<!-- ══════════════════════════════
+     PANEL 1 — CHEAT SHEET
+══════════════════════════════ -->
+<div class="panel active" id="cheatsheet">
+  <div class="page-header">
+    <div class="eyebrow">// Reference Guide</div>
+    <h1>HTML Tags Cheat Sheet</h1>
+    <p>Every major HTML tag, organized by category. Hover a tag for a brief description. Deprecated tags are marked in red.</p>
+  </div>
+
+  <div class="cs-grid">
+
+    <!-- Document Structure -->
+    <div class="cs-section">
+      <h2>Document Structure</h2>
+      <div class="tag-list">
+        <span class="tag">&lt;!DOCTYPE&gt;<span class="desc">Declares doc type</span></span>
+        <span class="tag">&lt;html&gt;<span class="desc">Root element</span></span>
+        <span class="tag">&lt;head&gt;<span class="desc">Meta container</span></span>
+        <span class="tag">&lt;body&gt;<span class="desc">Visible content</span></span>
+        <span class="tag">&lt;title&gt;<span class="desc">Tab/window title</span></span>
+        <span class="tag">&lt;meta&gt;<span class="desc">Metadata</span></span>
+        <span class="tag">&lt;link&gt;<span class="desc">External resource</span></span>
+        <span class="tag">&lt;style&gt;<span class="desc">Inline CSS</span></span>
+        <span class="tag">&lt;script&gt;<span class="desc">JavaScript</span></span>
+        <span class="tag">&lt;noscript&gt;<span class="desc">No-JS fallback</span></span>
+        <span class="tag">&lt;base&gt;<span class="desc">Base URL</span></span>
+      </div>
+    </div>
+
+    <!-- Semantic Layout -->
+    <div class="cs-section">
+      <h2>Semantic Layout</h2>
+      <div class="tag-list">
+        <span class="tag">&lt;header&gt;<span class="desc">Top of page/section</span></span>
+        <span class="tag">&lt;nav&gt;<span class="desc">Navigation links</span></span>
+        <span class="tag">&lt;main&gt;<span class="desc">Main content</span></span>
+        <span class="tag">&lt;section&gt;<span class="desc">Thematic section</span></span>
+        <span class="tag">&lt;article&gt;<span class="desc">Self-contained content</span></span>
+        <span class="tag">&lt;aside&gt;<span class="desc">Sidebar/related</span></span>
+        <span class="tag">&lt;footer&gt;<span class="desc">Bottom of page</span></span>
+        <span class="tag">&lt;div&gt;<span class="desc">Generic block</span></span>
+        <span class="tag">&lt;span&gt;<span class="desc">Generic inline</span></span>
+      </div>
+    </div>
+
+    <!-- Headings & Text -->
+    <div class="cs-section">
+      <h2>Headings & Text</h2>
+      <div class="tag-list">
+        <span class="tag">&lt;h1&gt;<span class="desc">Heading level 1</span></span>
+        <span class="tag">&lt;h2&gt;<span class="desc">Heading level 2</span></span>
+        <span class="tag">&lt;h3&gt;<span class="desc">Heading level 3</span></span>
+        <span class="tag">&lt;h4&gt;<span class="desc">Heading level 4</span></span>
+        <span class="tag">&lt;h5&gt;<span class="desc">Heading level 5</span></span>
+        <span class="tag">&lt;h6&gt;<span class="desc">Heading level 6</span></span>
+        <span class="tag">&lt;p&gt;<span class="desc">Paragraph</span></span>
+        <span class="tag">&lt;br&gt;<span class="desc">Line break</span></span>
+        <span class="tag">&lt;hr&gt;<span class="desc">Horizontal rule</span></span>
+        <span class="tag">&lt;pre&gt;<span class="desc">Preformatted text</span></span>
+        <span class="tag">&lt;blockquote&gt;<span class="desc">Long quotation</span></span>
+        <span class="tag">&lt;q&gt;<span class="desc">Short inline quote</span></span>
+        <span class="tag">&lt;address&gt;<span class="desc">Contact info</span></span>
+      </div>
+    </div>
+
+    <!-- Inline Text Formatting -->
+    <div class="cs-section">
+      <h2>Inline Text Formatting</h2>
+      <div class="tag-list">
+        <span class="tag">&lt;strong&gt;<span class="desc">Important (bold)</span></span>
+        <span class="tag">&lt;em&gt;<span class="desc">Emphasis (italic)</span></span>
+        <span class="tag">&lt;b&gt;<span class="desc">Bold (no importance)</span></span>
+        <span class="tag">&lt;i&gt;<span class="desc">Italic (no emphasis)</span></span>
+        <span class="tag">&lt;u&gt;<span class="desc">Underline</span></span>
+        <span class="tag">&lt;s&gt;<span class="desc">Strikethrough</span></span>
+        <span class="tag">&lt;mark&gt;<span class="desc">Highlight text</span></span>
+        <span class="tag">&lt;small&gt;<span class="desc">Fine print</span></span>
+        <span class="tag">&lt;big&gt;<span class="desc">Larger text</span></span>
+        <span class="tag">&lt;sup&gt;<span class="desc">Superscript</span></span>
+        <span class="tag">&lt;sub&gt;<span class="desc">Subscript</span></span>
+        <span class="tag">&lt;del&gt;<span class="desc">Deleted text</span></span>
+        <span class="tag">&lt;ins&gt;<span class="desc">Inserted text</span></span>
+        <span class="tag">&lt;abbr&gt;<span class="desc">Abbreviation</span></span>
+        <span class="tag">&lt;cite&gt;<span class="desc">Work citation</span></span>
+        <span class="tag">&lt;dfn&gt;<span class="desc">Definition</span></span>
+        <span class="tag">&lt;time&gt;<span class="desc">Date / time</span></span>
+      </div>
+    </div>
+
+    <!-- Code & Technical -->
+    <div class="cs-section">
+      <h2>Code & Technical</h2>
+      <div class="tag-list">
+        <span class="tag">&lt;code&gt;<span class="desc">Inline code</span></span>
+        <span class="tag">&lt;kbd&gt;<span class="desc">Keyboard input</span></span>
+        <span class="tag">&lt;samp&gt;<span class="desc">Program output</span></span>
+        <span class="tag">&lt;var&gt;<span class="desc">Variable</span></span>
+        <span class="tag">&lt;pre&gt;<span class="desc">Preformatted block</span></span>
+        <span class="tag">&lt;data&gt;<span class="desc">Machine-readable</span></span>
+      </div>
+    </div>
+
+    <!-- Lists -->
+    <div class="cs-section">
+      <h2>Lists</h2>
+      <div class="tag-list">
+        <span class="tag">&lt;ul&gt;<span class="desc">Unordered list</span></span>
+        <span class="tag">&lt;ol&gt;<span class="desc">Ordered list</span></span>
+        <span class="tag">&lt;li&gt;<span class="desc">List item</span></span>
+        <span class="tag">&lt;dl&gt;<span class="desc">Description list</span></span>
+        <span class="tag">&lt;dt&gt;<span class="desc">Term</span></span>
+        <span class="tag">&lt;dd&gt;<span class="desc">Description</span></span>
+        <span class="tag">&lt;menu&gt;<span class="desc">Menu list</span></span>
+      </div>
+    </div>
+
+    <!-- Links & Media -->
+    <div class="cs-section">
+      <h2>Links & Media</h2>
+      <div class="tag-list">
+        <span class="tag">&lt;a&gt;<span class="desc">Anchor / hyperlink</span></span>
+        <span class="tag">&lt;img&gt;<span class="desc">Image</span></span>
+        <span class="tag">&lt;picture&gt;<span class="desc">Responsive image</span></span>
+        <span class="tag">&lt;source&gt;<span class="desc">Media source</span></span>
+        <span class="tag">&lt;video&gt;<span class="desc">Video embed</span></span>
+        <span class="tag">&lt;audio&gt;<span class="desc">Audio embed</span></span>
+        <span class="tag">&lt;track&gt;<span class="desc">Text tracks</span></span>
+        <span class="tag">&lt;iframe&gt;<span class="desc">Inline frame</span></span>
+        <span class="tag">&lt;embed&gt;<span class="desc">External content</span></span>
+        <span class="tag">&lt;object&gt;<span class="desc">Embedded object</span></span>
+        <span class="tag">&lt;canvas&gt;<span class="desc">Drawing surface</span></span>
+        <span class="tag">&lt;svg&gt;<span class="desc">SVG vector</span></span>
+        <span class="tag">&lt;map&gt;<span class="desc">Image map</span></span>
+        <span class="tag">&lt;area&gt;<span class="desc">Image map area</span></span>
+      </div>
+    </div>
+
+    <!-- Tables -->
+    <div class="cs-section">
+      <h2>Tables</h2>
+      <div class="tag-list">
+        <span class="tag">&lt;table&gt;<span class="desc">Table container</span></span>
+        <span class="tag">&lt;caption&gt;<span class="desc">Table caption</span></span>
+        <span class="tag">&lt;thead&gt;<span class="desc">Table header group</span></span>
+        <span class="tag">&lt;tbody&gt;<span class="desc">Table body group</span></span>
+        <span class="tag">&lt;tfoot&gt;<span class="desc">Table footer group</span></span>
+        <span class="tag">&lt;tr&gt;<span class="desc">Table row</span></span>
+        <span class="tag">&lt;th&gt;<span class="desc">Header cell</span></span>
+        <span class="tag">&lt;td&gt;<span class="desc">Data cell</span></span>
+        <span class="tag">&lt;colgroup&gt;<span class="desc">Column group</span></span>
+        <span class="tag">&lt;col&gt;<span class="desc">Column spec</span></span>
+      </div>
+    </div>
+
+    <!-- Forms -->
+    <div class="cs-section">
+      <h2>Forms</h2>
+      <div class="tag-list">
+        <span class="tag">&lt;form&gt;<span class="desc">Form container</span></span>
+        <span class="tag">&lt;input&gt;<span class="desc">Input field</span></span>
+        <span class="tag">&lt;label&gt;<span class="desc">Field label</span></span>
+        <span class="tag">&lt;button&gt;<span class="desc">Clickable button</span></span>
+        <span class="tag">&lt;select&gt;<span class="desc">Dropdown list</span></span>
+        <span class="tag">&lt;option&gt;<span class="desc">Dropdown item</span></span>
+        <span class="tag">&lt;optgroup&gt;<span class="desc">Option group</span></span>
+        <span class="tag">&lt;textarea&gt;<span class="desc">Multi-line input</span></span>
+        <span class="tag">&lt;fieldset&gt;<span class="desc">Group controls</span></span>
+        <span class="tag">&lt;legend&gt;<span class="desc">Fieldset title</span></span>
+        <span class="tag">&lt;datalist&gt;<span class="desc">Input suggestions</span></span>
+        <span class="tag">&lt;output&gt;<span class="desc">Calculation result</span></span>
+        <span class="tag">&lt;progress&gt;<span class="desc">Progress bar</span></span>
+        <span class="tag">&lt;meter&gt;<span class="desc">Scalar gauge</span></span>
+      </div>
+    </div>
+
+    <!-- Interactive / Details -->
+    <div class="cs-section">
+      <h2>Interactive</h2>
+      <div class="tag-list">
+        <span class="tag">&lt;details&gt;<span class="desc">Disclosure widget</span></span>
+        <span class="tag">&lt;summary&gt;<span class="desc">Details heading</span></span>
+        <span class="tag">&lt;dialog&gt;<span class="desc">Modal dialog</span></span>
+        <span class="tag">&lt;menu&gt;<span class="desc">Toolbar</span></span>
+        <span class="tag">&lt;template&gt;<span class="desc">Client-side template</span></span>
+        <span class="tag">&lt;slot&gt;<span class="desc">Web component slot</span></span>
+      </div>
+    </div>
+
+    <!-- Figure & Caption -->
+    <div class="cs-section">
+      <h2>Figure & Caption</h2>
+      <div class="tag-list">
+        <span class="tag">&lt;figure&gt;<span class="desc">Self-contained figure</span></span>
+        <span class="tag">&lt;figcaption&gt;<span class="desc">Figure caption</span></span>
+      </div>
+    </div>
+
+    <!-- Deprecated -->
+    <div class="cs-section">
+      <h2>Deprecated </h2>
+      <div class="tag-list">
+        <span class="tag deprecated">&lt;font&gt;<span class="desc">Use CSS instead</span></span>
+        <span class="tag deprecated">&lt;center&gt;<span class="desc">Use CSS instead</span></span>
+        <span class="tag deprecated">&lt;marquee&gt;<span class="desc">Scrolling text</span></span>
+        <span class="tag deprecated">&lt;blink&gt;<span class="desc">Blinking text</span></span>
+        <span class="tag deprecated">&lt;frame&gt;<span class="desc">Use iframe</span></span>
+        <span class="tag deprecated">&lt;frameset&gt;<span class="desc">Frame container</span></span>
+        <span class="tag deprecated">&lt;strike&gt;<span class="desc">Use &lt;s&gt;</span></span>
+        <span class="tag deprecated">&lt;tt&gt;<span class="desc">Use &lt;code&gt;</span></span>
+        <span class="tag deprecated">&lt;acronym&gt;<span class="desc">Use &lt;abbr&gt;</span></span>
+        <span class="tag deprecated">&lt;applet&gt;<span class="desc">Use &lt;embed&gt;</span></span>
+      </div>
+    </div>
+
+  </div><!-- /cs-grid -->
+</div><!-- /cheatsheet panel -->
+
+
+<!-- ══════════════════════════════
+     PANEL 2 — PROJECT
+══════════════════════════════ -->
+<div class="panel" id="project">
+  <div class="page-header">
+    <div class="eyebrow">// Build It Yourself</div>
+    <h1>Project: DevFolio — A Developer Portfolio</h1>
+    <p>Build a complete developer portfolio website step-by-step. Each task introduces a new set of HTML tags. Complete all 10 tasks and you'll have a fully structured, semantic HTML website using almost every important HTML tag.</p>
+  </div>
+
+  <div class="project-intro">
+    <p>
+      You'll build <strong style="color:#fff">DevFolio</strong> — a personal portfolio for a fictional developer named <em>Alex Rivera</em>.
+      The project is split into <strong style="color:#fff">10 tasks</strong>, each targeting specific HTML tags. 
+      Your job is to write the HTML for each task inside a single <code style="font-family:var(--font-mono);color:var(--accent3)">index.html</code> file.
+      No CSS or JavaScript required — pure HTML only!
+    </p>
+    <div class="stack">
+      <span class="badge html">HTML Only</span>
+      <span class="badge css">No CSS Required</span>
+    </div>
+  </div>
+
+  <div class="tasks-container">
+
+    <div class="progress-bar-wrap">
+      <div class="label">
+        <span>Overall Progress</span>
+        <span id="prog-text">0 / 10 tasks completed</span>
+      </div>
+      <div class="pbar-track"><div class="pbar-fill" id="pbar"></div></div>
+    </div>
+
+    <!-- ── TASK 1 ── -->
+    <div class="task-card" id="task-1">
+      <div class="task-header" onclick="toggleTask('task-1')">
+        <span class="task-num">01</span>
+        <span class="task-title">Document Skeleton</span>
+        <div class="task-tags-mini">
+          <span>&lt;!DOCTYPE&gt;</span><span>&lt;html&gt;</span><span>&lt;head&gt;</span>
+          <span>&lt;meta&gt;</span><span>&lt;title&gt;</span><span>&lt;body&gt;</span>
+        </div>
+        <span class="task-status todo">To Do</span>
+        <span class="task-arrow">▶</span>
+      </div>
+      <div class="task-body">
+        <p class="task-desc">
+          Every HTML file must start with a proper document structure. Your first task is to create the <strong>complete document skeleton</strong> for your portfolio. This includes the doctype declaration, root element, and all essential head metadata.
+        </p>
+        <div class="code-label">// Starter Template — complete the missing parts</div>
+        <div class="code-block">
+<span class="kw">&lt;!DOCTYPE</span> <span class="attr">html</span><span class="kw">&gt;</span>
+<span class="kw">&lt;html</span> <span class="attr">lang</span>=<span class="val">"en"</span><span class="kw">&gt;</span>
+<span class="kw">&lt;head&gt;</span>
+  <span class="kw">&lt;meta</span> <span class="attr">charset</span>=<span class="val">"UTF-8"</span> <span class="kw">/&gt;</span>
+  <span class="kw">&lt;meta</span> <span class="attr">name</span>=<span class="val">"viewport"</span> <span class="attr">content</span>=<span class="val">"width=device-width, initial-scale=1.0"</span> <span class="kw">/&gt;</span>
+  <span class="kw">&lt;meta</span> <span class="attr">name</span>=<span class="val">"description"</span> <span class="attr">content</span>=<span class="val">"___YOUR DESCRIPTION___"</span> <span class="kw">/&gt;</span>
+  <span class="kw">&lt;meta</span> <span class="attr">name</span>=<span class="val">"author"</span> <span class="attr">content</span>=<span class="val">"Alex Rivera"</span> <span class="kw">/&gt;</span>
+  <span class="kw">&lt;title&gt;</span>Alex Rivera — Full Stack Developer<span class="kw">&lt;/title&gt;</span>
+<span class="kw">&lt;/head&gt;</span>
+<span class="kw">&lt;body&gt;</span>
+  <span class="cm">&lt;!-- Your content goes here --&gt;</span>
+<span class="kw">&lt;/body&gt;</span>
+<span class="kw">&lt;/html&gt;</span>
+        </div>
+        <ul class="checklist">
+          <li>Create index.html and add &lt;!DOCTYPE html&gt;</li>
+          <li>Add &lt;html lang="en"&gt; as root element</li>
+          <li>Add &lt;head&gt; with charset, viewport, and description &lt;meta&gt; tags</li>
+          <li>Add &lt;title&gt; with your portfolio title</li>
+          <li>Add &lt;body&gt; as the content container</li>
+        </ul>
+        <button class="complete-btn" onclick="markDone('task-1', this)">✓ Mark as Complete</button>
+      </div>
+    </div>
+
+    <!-- ── TASK 2 ── -->
+    <div class="task-card" id="task-2">
+      <div class="task-header" onclick="toggleTask('task-2')">
+        <span class="task-num">02</span>
+        <span class="task-title">Navigation Bar</span>
+        <div class="task-tags-mini">
+          <span>&lt;nav&gt;</span><span>&lt;ul&gt;</span><span>&lt;li&gt;</span><span>&lt;a&gt;</span>
+        </div>
+        <span class="task-status todo">To Do</span>
+        <span class="task-arrow">▶</span>
+      </div>
+      <div class="task-body">
+        <p class="task-desc">
+          Create the site <strong>navigation bar</strong> at the top of your portfolio. Use semantic HTML to build a proper nav element with an unordered list of anchor links pointing to each section of the page using <strong>ID anchors</strong> (e.g. <code style="font-family:var(--font-mono);color:var(--accent3)">#about</code>).
+        </p>
+        <div class="code-label">// Your task</div>
+        <div class="code-block">
+<span class="kw">&lt;nav&gt;</span>
+  <span class="kw">&lt;ul&gt;</span>
+    <span class="kw">&lt;li&gt;&lt;a</span> <span class="attr">href</span>=<span class="val">"#hero"</span><span class="kw">&gt;</span>Home<span class="kw">&lt;/a&gt;&lt;/li&gt;</span>
+    <span class="kw">&lt;li&gt;&lt;a</span> <span class="attr">href</span>=<span class="val">"#about"</span><span class="kw">&gt;</span>About<span class="kw">&lt;/a&gt;&lt;/li&gt;</span>
+    <span class="cm">&lt;!-- Add: Skills, Projects, Contact --&gt;</span>
+  <span class="kw">&lt;/ul&gt;</span>
+<span class="kw">&lt;/nav&gt;</span>
+        </div>
+        <ul class="checklist">
+          <li>Use &lt;nav&gt; as the semantic wrapper</li>
+          <li>Use &lt;ul&gt; → &lt;li&gt; for the list of links</li>
+          <li>Add 5 anchor links: Home, About, Skills, Projects, Contact</li>
+          <li>Each &lt;a&gt; should use href="#section-id" for in-page navigation</li>
+        </ul>
+        <button class="complete-btn" onclick="markDone('task-2', this)">✓ Mark as Complete</button>
+      </div>
+    </div>
+
+    <!-- ── TASK 3 ── -->
+    <div class="task-card" id="task-3">
+      <div class="task-header" onclick="toggleTask('task-3')">
+        <span class="task-num">03</span>
+        <span class="task-title">Hero Section</span>
+        <div class="task-tags-mini">
+          <span>&lt;header&gt;</span><span>&lt;h1&gt;–&lt;h3&gt;</span><span>&lt;p&gt;</span>
+          <span>&lt;strong&gt;</span><span>&lt;em&gt;</span><span>&lt;br&gt;</span><span>&lt;hr&gt;</span>
+        </div>
+        <span class="task-status todo">To Do</span>
+        <span class="task-arrow">▶</span>
+      </div>
+      <div class="task-body">
+        <p class="task-desc">
+          Build the <strong>hero / intro section</strong> at the top of the page. This should introduce Alex Rivera with a large heading, subtitle, short bio paragraph, and a horizontal divider below it.
+        </p>
+        <div class="code-label">// Structure to build</div>
+        <div class="code-block">
+<span class="kw">&lt;header</span> <span class="attr">id</span>=<span class="val">"hero"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;h1&gt;</span>Hi, I'm <span class="kw">&lt;strong&gt;</span>Alex Rivera<span class="kw">&lt;/strong&gt;&lt;/h1&gt;</span>
+  <span class="kw">&lt;h2&gt;</span>Full Stack Developer &amp; Open Source Enthusiast<span class="kw">&lt;/h2&gt;</span>
+  <span class="kw">&lt;p&gt;</span>
+    I build <span class="kw">&lt;em&gt;</span>fast, accessible<span class="kw">&lt;/em&gt;</span>, and beautiful web apps.<span class="kw">&lt;br&gt;</span>
+    Based in Karachi, Pakistan. Available for freelance.
+  <span class="kw">&lt;/p&gt;</span>
+  <span class="kw">&lt;hr&gt;</span>
+<span class="kw">&lt;/header&gt;</span>
+        </div>
+        <ul class="checklist">
+          <li>Wrap everything in &lt;header id="hero"&gt;</li>
+          <li>Use &lt;h1&gt; for the name, &lt;strong&gt; to bold it</li>
+          <li>Use &lt;h2&gt; for the job title</li>
+          <li>Use &lt;p&gt; with &lt;em&gt; for emphasis and &lt;br&gt; for a line break</li>
+          <li>End with &lt;hr&gt; as a visual divider</li>
+        </ul>
+        <button class="complete-btn" onclick="markDone('task-3', this)">✓ Mark as Complete</button>
+      </div>
+    </div>
+
+    <!-- ── TASK 4 ── -->
+    <div class="task-card" id="task-4">
+      <div class="task-header" onclick="toggleTask('task-4')">
+        <span class="task-num">04</span>
+        <span class="task-title">About Section</span>
+        <div class="task-tags-mini">
+          <span>&lt;section&gt;</span><span>&lt;article&gt;</span><span>&lt;aside&gt;</span>
+          <span>&lt;figure&gt;</span><span>&lt;figcaption&gt;</span><span>&lt;img&gt;</span><span>&lt;dl&gt;</span>
+        </div>
+        <span class="task-status todo">To Do</span>
+        <span class="task-arrow">▶</span>
+      </div>
+      <div class="task-body">
+        <p class="task-desc">
+          Create the <strong>About Me</strong> section with a profile image, a description article, and a sidebar (aside) with quick facts using a description list. Use <code style="font-family:var(--font-mono);color:var(--accent3)">&lt;figure&gt;</code> to wrap the image with a caption.
+        </p>
+        <div class="code-label">// Structure</div>
+        <div class="code-block">
+<span class="kw">&lt;section</span> <span class="attr">id</span>=<span class="val">"about"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;h2&gt;</span>About Me<span class="kw">&lt;/h2&gt;</span>
+
+  <span class="kw">&lt;figure&gt;</span>
+    <span class="kw">&lt;img</span> <span class="attr">src</span>=<span class="val">"profile.jpg"</span> <span class="attr">alt</span>=<span class="val">"Alex Rivera"</span> <span class="attr">width</span>=<span class="val">"200"</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;figcaption&gt;</span>Alex Rivera — Karachi, 2024<span class="kw">&lt;/figcaption&gt;</span>
+  <span class="kw">&lt;/figure&gt;</span>
+
+  <span class="kw">&lt;article&gt;</span>
+    <span class="kw">&lt;p&gt;</span>I'm a passionate developer with 5+ years of experience...<span class="kw">&lt;/p&gt;</span>
+  <span class="kw">&lt;/article&gt;</span>
+
+  <span class="kw">&lt;aside&gt;</span>
+    <span class="kw">&lt;dl&gt;</span>
+      <span class="kw">&lt;dt&gt;</span>Location<span class="kw">&lt;/dt&gt;</span>  <span class="kw">&lt;dd&gt;</span>Karachi, PK<span class="kw">&lt;/dd&gt;</span>
+      <span class="kw">&lt;dt&gt;</span>Experience<span class="kw">&lt;/dt&gt;</span> <span class="kw">&lt;dd&gt;</span>5 Years<span class="kw">&lt;/dd&gt;</span>
+      <span class="cm">&lt;!-- Add: Freelance, Languages, etc. --&gt;</span>
+    <span class="kw">&lt;/dl&gt;</span>
+  <span class="kw">&lt;/aside&gt;</span>
+<span class="kw">&lt;/section&gt;</span>
+        </div>
+        <ul class="checklist">
+          <li>Wrap in &lt;section id="about"&gt;</li>
+          <li>Add &lt;figure&gt; + &lt;img&gt; + &lt;figcaption&gt; for profile picture</li>
+          <li>Use &lt;article&gt; for the bio text</li>
+          <li>Use &lt;aside&gt; for sidebar quick facts</li>
+          <li>Use &lt;dl&gt; + &lt;dt&gt; + &lt;dd&gt; for the fact list (at least 4 items)</li>
+        </ul>
+        <button class="complete-btn" onclick="markDone('task-4', this)">✓ Mark as Complete</button>
+      </div>
+    </div>
+
+    <!-- ── TASK 5 ── -->
+    <div class="task-card" id="task-5">
+      <div class="task-header" onclick="toggleTask('task-5')">
+        <span class="task-num">05</span>
+        <span class="task-title">Skills Table</span>
+        <div class="task-tags-mini">
+          <span>&lt;table&gt;</span><span>&lt;thead&gt;</span><span>&lt;tbody&gt;</span>
+          <span>&lt;tr&gt;</span><span>&lt;th&gt;</span><span>&lt;td&gt;</span><span>&lt;caption&gt;</span>
+        </div>
+        <span class="task-status todo">To Do</span>
+        <span class="task-arrow">▶</span>
+      </div>
+      <div class="task-body">
+        <p class="task-desc">
+          Build a <strong>Skills Table</strong> displaying Alex's technical skills, proficiency level, and years of experience. Use proper table structure with a caption, header row, and body rows.
+        </p>
+        <div class="code-label">// Table Structure</div>
+        <div class="code-block">
+<span class="kw">&lt;section</span> <span class="attr">id</span>=<span class="val">"skills"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;h2&gt;</span>My Skills<span class="kw">&lt;/h2&gt;</span>
+  <span class="kw">&lt;table&gt;</span>
+    <span class="kw">&lt;caption&gt;</span>Technical Skills Overview<span class="kw">&lt;/caption&gt;</span>
+    <span class="kw">&lt;thead&gt;</span>
+      <span class="kw">&lt;tr&gt;</span>
+        <span class="kw">&lt;th&gt;</span>Skill<span class="kw">&lt;/th&gt;</span>
+        <span class="kw">&lt;th&gt;</span>Level<span class="kw">&lt;/th&gt;</span>
+        <span class="kw">&lt;th&gt;</span>Years<span class="kw">&lt;/th&gt;</span>
+      <span class="kw">&lt;/tr&gt;</span>
+    <span class="kw">&lt;/thead&gt;</span>
+    <span class="kw">&lt;tbody&gt;</span>
+      <span class="kw">&lt;tr&gt;</span>
+        <span class="kw">&lt;td&gt;</span>HTML &amp; CSS<span class="kw">&lt;/td&gt;</span>
+        <span class="kw">&lt;td&gt;</span>Expert<span class="kw">&lt;/td&gt;</span>
+        <span class="kw">&lt;td&gt;</span>5<span class="kw">&lt;/td&gt;</span>
+      <span class="kw">&lt;/tr&gt;</span>
+      <span class="cm">&lt;!-- Add at least 4 more skills --&gt;</span>
+    <span class="kw">&lt;/tbody&gt;</span>
+  <span class="kw">&lt;/table&gt;</span>
+<span class="kw">&lt;/section&gt;</span>
+        </div>
+        <ul class="checklist">
+          <li>Use &lt;table&gt; with a &lt;caption&gt;</li>
+          <li>Add &lt;thead&gt; with a &lt;tr&gt; of &lt;th&gt; headers (Skill, Level, Years)</li>
+          <li>Add &lt;tbody&gt; with at least 5 rows using &lt;tr&gt; + &lt;td&gt;</li>
+          <li>Add a &lt;tfoot&gt; row summarizing total skills</li>
+        </ul>
+        <button class="complete-btn" onclick="markDone('task-5', this)">✓ Mark as Complete</button>
+      </div>
+    </div>
+
+    <!-- ── TASK 6 ── -->
+    <div class="task-card" id="task-6">
+      <div class="task-header" onclick="toggleTask('task-6')">
+        <span class="task-num">06</span>
+        <span class="task-title">Projects Section</span>
+        <div class="task-tags-mini">
+          <span>&lt;main&gt;</span><span>&lt;details&gt;</span><span>&lt;summary&gt;</span>
+          <span>&lt;blockquote&gt;</span><span>&lt;code&gt;</span><span>&lt;pre&gt;</span><span>&lt;abbr&gt;</span>
+        </div>
+        <span class="task-status todo">To Do</span>
+        <span class="task-arrow">▶</span>
+      </div>
+      <div class="task-body">
+        <p class="task-desc">
+          Build the <strong>Projects Section</strong> inside a <code style="font-family:var(--font-mono);color:var(--accent3)">&lt;main&gt;</code> wrapper. Use expandable <code style="font-family:var(--font-mono);color:var(--accent3)">&lt;details&gt;</code> cards for each project, with a testimonial quote and a code snippet preview.
+        </p>
+        <div class="code-label">// Project Card with details</div>
+        <div class="code-block">
+<span class="kw">&lt;main&gt;</span>
+  <span class="kw">&lt;section</span> <span class="attr">id</span>=<span class="val">"projects"</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;h2&gt;</span>Projects<span class="kw">&lt;/h2&gt;</span>
+
+    <span class="kw">&lt;details&gt;</span>
+      <span class="kw">&lt;summary&gt;</span>Project 1: Task Manager App<span class="kw">&lt;/summary&gt;</span>
+      <span class="kw">&lt;p&gt;</span>A <span class="kw">&lt;abbr</span> <span class="attr">title</span>=<span class="val">"Progressive Web App"</span><span class="kw">&gt;</span>PWA<span class="kw">&lt;/abbr&gt;</span> task manager...<span class="kw">&lt;/p&gt;</span>
+      <span class="kw">&lt;pre&gt;&lt;code&gt;</span>
+const task = { id: 1, title: "Buy milk", done: false };
+      <span class="kw">&lt;/code&gt;&lt;/pre&gt;</span>
+      <span class="kw">&lt;blockquote</span> <span class="attr">cite</span>=<span class="val">"https://client.com"</span><span class="kw">&gt;</span>
+        "This app saved our team 3 hours a day!"
+        <span class="kw">&lt;cite&gt;</span>— Sarah K., Project Manager<span class="kw">&lt;/cite&gt;</span>
+      <span class="kw">&lt;/blockquote&gt;</span>
+    <span class="kw">&lt;/details&gt;</span>
+
+    <span class="cm">&lt;!-- Add 2 more project cards --&gt;</span>
+  <span class="kw">&lt;/section&gt;</span>
+<span class="kw">&lt;/main&gt;</span>
+        </div>
+        <ul class="checklist">
+          <li>Wrap in &lt;main&gt; as the primary content region</li>
+          <li>Use &lt;details&gt; + &lt;summary&gt; for 3 expandable project cards</li>
+          <li>Each card has a &lt;p&gt; description and a &lt;pre&gt;&lt;code&gt; snippet</li>
+          <li>Add &lt;blockquote&gt; + &lt;cite&gt; for a client testimonial</li>
+          <li>Use &lt;abbr title="..."&gt; for at least one technical abbreviation</li>
+        </ul>
+        <button class="complete-btn" onclick="markDone('task-6', this)">✓ Mark as Complete</button>
+      </div>
+    </div>
+
+    <!-- ── TASK 7 ── -->
+    <div class="task-card" id="task-7">
+      <div class="task-header" onclick="toggleTask('task-7')">
+        <span class="task-num">07</span>
+        <span class="task-title">Contact Form</span>
+        <div class="task-tags-mini">
+          <span>&lt;form&gt;</span><span>&lt;input&gt;</span><span>&lt;label&gt;</span>
+          <span>&lt;textarea&gt;</span><span>&lt;select&gt;</span><span>&lt;fieldset&gt;</span><span>&lt;button&gt;</span>
+        </div>
+        <span class="task-status todo">To Do</span>
+        <span class="task-arrow">▶</span>
+      </div>
+      <div class="task-body">
+        <p class="task-desc">
+          Build a fully structured <strong>Contact Form</strong> using HTML form elements. Group the fields with <code style="font-family:var(--font-mono);color:var(--accent3)">&lt;fieldset&gt;</code>, use proper <code style="font-family:var(--font-mono);color:var(--accent3)">&lt;label&gt;</code> elements, and include various input types.
+        </p>
+        <div class="code-label">// Form Structure</div>
+        <div class="code-block">
+<span class="kw">&lt;section</span> <span class="attr">id</span>=<span class="val">"contact"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;form</span> <span class="attr">action</span>=<span class="val">"#"</span> <span class="attr">method</span>=<span class="val">"post"</span><span class="kw">&gt;</span>
+
+    <span class="kw">&lt;fieldset&gt;</span>
+      <span class="kw">&lt;legend&gt;</span>Personal Info<span class="kw">&lt;/legend&gt;</span>
+      <span class="kw">&lt;label</span> <span class="attr">for</span>=<span class="val">"name"</span><span class="kw">&gt;</span>Full Name<span class="kw">&lt;/label&gt;</span>
+      <span class="kw">&lt;input</span> <span class="attr">type</span>=<span class="val">"text"</span> <span class="attr">id</span>=<span class="val">"name"</span> <span class="attr">name</span>=<span class="val">"name"</span> <span class="attr">required</span><span class="kw">&gt;</span>
+      <span class="cm">&lt;!-- Add: email input, phone input --&gt;</span>
+    <span class="kw">&lt;/fieldset&gt;</span>
+
+    <span class="kw">&lt;fieldset&gt;</span>
+      <span class="kw">&lt;legend&gt;</span>Project Details<span class="kw">&lt;/legend&gt;</span>
+      <span class="kw">&lt;label</span> <span class="attr">for</span>=<span class="val">"type"</span><span class="kw">&gt;</span>Project Type<span class="kw">&lt;/label&gt;</span>
+      <span class="kw">&lt;select</span> <span class="attr">id</span>=<span class="val">"type"</span> <span class="attr">name</span>=<span class="val">"type"</span><span class="kw">&gt;</span>
+        <span class="kw">&lt;option</span> <span class="attr">value</span>=<span class="val">"web"</span><span class="kw">&gt;</span>Web App<span class="kw">&lt;/option&gt;</span>
+        <span class="kw">&lt;option</span> <span class="attr">value</span>=<span class="val">"mobile"</span><span class="kw">&gt;</span>Mobile App<span class="kw">&lt;/option&gt;</span>
+      <span class="kw">&lt;/select&gt;</span>
+      <span class="kw">&lt;label</span> <span class="attr">for</span>=<span class="val">"message"</span><span class="kw">&gt;</span>Message<span class="kw">&lt;/label&gt;</span>
+      <span class="kw">&lt;textarea</span> <span class="attr">id</span>=<span class="val">"message"</span> <span class="attr">name</span>=<span class="val">"message"</span> <span class="attr">rows</span>=<span class="val">"5"</span><span class="kw">&gt;&lt;/textarea&gt;</span>
+    <span class="kw">&lt;/fieldset&gt;</span>
+
+    <span class="kw">&lt;button</span> <span class="attr">type</span>=<span class="val">"submit"</span><span class="kw">&gt;</span>Send Message<span class="kw">&lt;/button&gt;</span>
+    <span class="kw">&lt;button</span> <span class="attr">type</span>=<span class="val">"reset"</span><span class="kw">&gt;</span>Clear<span class="kw">&lt;/button&gt;</span>
+  <span class="kw">&lt;/form&gt;</span>
+<span class="kw">&lt;/section&gt;</span>
+        </div>
+        <ul class="checklist">
+          <li>Use &lt;form method="post"&gt; as container</li>
+          <li>Group with 2 &lt;fieldset&gt; + &lt;legend&gt; blocks</li>
+          <li>Add inputs: text, email, tel, number, date, checkbox, radio</li>
+          <li>Add &lt;select&gt; dropdown with &lt;option&gt; items</li>
+          <li>Add &lt;textarea&gt; for the message</li>
+          <li>Add submit and reset &lt;button&gt; tags</li>
+          <li>Every input must have a matching &lt;label for="id"&gt;</li>
+        </ul>
+        <button class="complete-btn" onclick="markDone('task-7', this)">✓ Mark as Complete</button>
+      </div>
+    </div>
+
+    <!-- ── TASK 8 ── -->
+    <div class="task-card" id="task-8">
+      <div class="task-header" onclick="toggleTask('task-8')">
+        <span class="task-num">08</span>
+        <span class="task-title">Media Section</span>
+        <div class="task-tags-mini">
+          <span>&lt;video&gt;</span><span>&lt;audio&gt;</span><span>&lt;source&gt;</span>
+          <span>&lt;picture&gt;</span><span>&lt;iframe&gt;</span>
+        </div>
+        <span class="task-status todo">To Do</span>
+        <span class="task-arrow">▶</span>
+      </div>
+      <div class="task-body">
+        <p class="task-desc">
+          Add a <strong>Media Section</strong> to showcase a demo video, background music, a responsive image, and an embedded YouTube video using an iframe.
+        </p>
+        <div class="code-label">// Media embeds</div>
+        <div class="code-block">
+<span class="kw">&lt;section</span> <span class="attr">id</span>=<span class="val">"media"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;h2&gt;</span>Demo Reel<span class="kw">&lt;/h2&gt;</span>
+
+  <span class="cm">&lt;!-- HTML5 Video --&gt;</span>
+  <span class="kw">&lt;video</span> <span class="attr">controls</span> <span class="attr">width</span>=<span class="val">"640"</span> <span class="attr">poster</span>=<span class="val">"thumb.jpg"</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;source</span> <span class="attr">src</span>=<span class="val">"demo.mp4"</span> <span class="attr">type</span>=<span class="val">"video/mp4"</span><span class="kw">&gt;</span>
+    Your browser does not support video.
+  <span class="kw">&lt;/video&gt;</span>
+
+  <span class="cm">&lt;!-- HTML5 Audio --&gt;</span>
+  <span class="kw">&lt;audio</span> <span class="attr">controls</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;source</span> <span class="attr">src</span>=<span class="val">"intro.mp3"</span> <span class="attr">type</span>=<span class="val">"audio/mpeg"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;/audio&gt;</span>
+
+  <span class="cm">&lt;!-- Responsive Picture --&gt;</span>
+  <span class="kw">&lt;picture&gt;</span>
+    <span class="kw">&lt;source</span> <span class="attr">media</span>=<span class="val">"(max-width:600px)"</span> <span class="attr">srcset</span>=<span class="val">"small.jpg"</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;img</span> <span class="attr">src</span>=<span class="val">"large.jpg"</span> <span class="attr">alt</span>=<span class="val">"Portfolio Preview"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;/picture&gt;</span>
+
+  <span class="cm">&lt;!-- YouTube Embed --&gt;</span>
+  <span class="kw">&lt;iframe</span> <span class="attr">src</span>=<span class="val">"https://www.youtube.com/embed/VIDEO_ID"</span>
+    <span class="attr">width</span>=<span class="val">"560"</span> <span class="attr">height</span>=<span class="val">"315"</span>
+    <span class="attr">allowfullscreen</span><span class="kw">&gt;&lt;/iframe&gt;</span>
+<span class="kw">&lt;/section&gt;</span>
+        </div>
+        <ul class="checklist">
+          <li>Add &lt;video controls&gt; with a &lt;source&gt; tag</li>
+          <li>Add &lt;audio controls&gt; with a &lt;source&gt; tag</li>
+          <li>Add &lt;picture&gt; with two &lt;source&gt; + fallback &lt;img&gt;</li>
+          <li>Embed a YouTube video using &lt;iframe&gt;</li>
+        </ul>
+        <button class="complete-btn" onclick="markDone('task-8', this)">✓ Mark as Complete</button>
+      </div>
+    </div>
+
+    <!-- ── TASK 9 ── -->
+    <div class="task-card" id="task-9">
+      <div class="task-header" onclick="toggleTask('task-9')">
+        <span class="task-num">09</span>
+        <span class="task-title">Footer</span>
+        <div class="task-tags-mini">
+          <span>&lt;footer&gt;</span><span>&lt;address&gt;</span><span>&lt;time&gt;</span>
+          <span>&lt;small&gt;</span><span>&lt;sup&gt;</span><span>&lt;sub&gt;</span>
+        </div>
+        <span class="task-status todo">To Do</span>
+        <span class="task-arrow">▶</span>
+      </div>
+      <div class="task-body">
+        <p class="task-desc">
+          Build the site <strong>Footer</strong> with contact address, copyright notice with superscript/subscript examples, and a date using the semantic <code style="font-family:var(--font-mono);color:var(--accent3)">&lt;time&gt;</code> element.
+        </p>
+        <div class="code-label">// Footer structure</div>
+        <div class="code-block">
+<span class="kw">&lt;footer&gt;</span>
+  <span class="kw">&lt;address&gt;</span>
+    Alex Rivera<span class="kw">&lt;br&gt;</span>
+    Karachi, Pakistan<span class="kw">&lt;br&gt;</span>
+    <span class="kw">&lt;a</span> <span class="attr">href</span>=<span class="val">"mailto:alex@email.com"</span><span class="kw">&gt;</span>alex@email.com<span class="kw">&lt;/a&gt;</span>
+  <span class="kw">&lt;/address&gt;</span>
+
+  <span class="kw">&lt;p&gt;</span>
+    H<span class="kw">&lt;sub&gt;</span>2<span class="kw">&lt;/sub&gt;</span>O is water. E=mc<span class="kw">&lt;sup&gt;</span>2<span class="kw">&lt;/sup&gt;</span> is Einstein's formula.
+  <span class="kw">&lt;/p&gt;</span>
+
+  <span class="kw">&lt;small&gt;</span>
+    &amp;copy; <span class="kw">&lt;time</span> <span class="attr">datetime</span>=<span class="val">"2025"</span><span class="kw">&gt;</span>2025<span class="kw">&lt;/time&gt;</span> Alex Rivera. All rights reserved.
+  <span class="kw">&lt;/small&gt;</span>
+<span class="kw">&lt;/footer&gt;</span>
+        </div>
+        <ul class="checklist">
+          <li>Use &lt;footer&gt; as the semantic footer wrapper</li>
+          <li>Add &lt;address&gt; with name, city, and mailto link</li>
+          <li>Use &lt;sup&gt; and &lt;sub&gt; somewhere in the footer</li>
+          <li>Use &lt;time datetime="YYYY"&gt; for the copyright year</li>
+          <li>Wrap copyright in &lt;small&gt;</li>
+        </ul>
+        <button class="complete-btn" onclick="markDone('task-9', this)">✓ Mark as Complete</button>
+      </div>
+    </div>
+
+    <!-- ── TASK 10 ── -->
+    <div class="task-card" id="task-10">
+      <div class="task-header" onclick="toggleTask('task-10')">
+        <span class="task-num">10</span>
+        <span class="task-title">Bonus — Advanced Tags</span>
+        <div class="task-tags-mini">
+          <span>&lt;mark&gt;</span><span>&lt;del&gt;</span><span>&lt;ins&gt;</span><span>&lt;progress&gt;</span>
+          <span>&lt;meter&gt;</span><span>&lt;datalist&gt;</span><span>&lt;kbd&gt;</span>
+        </div>
+        <span class="task-status todo">To Do</span>
+        <span class="task-arrow">▶</span>
+      </div>
+      <div class="task-body">
+        <p class="task-desc">
+          Sprinkle <strong>advanced semantic tags</strong> throughout your portfolio. Add a hiring status bar, a skill meter, a searchable tech input, highlighted text, and keyboard shortcut indicators.
+        </p>
+        <div class="code-label">// Scatter these throughout your page</div>
+        <div class="code-block">
+<span class="cm">&lt;!-- Highlighted important text --&gt;</span>
+<span class="kw">&lt;p&gt;</span>I am <span class="kw">&lt;mark&gt;</span>available for hire<span class="kw">&lt;/mark&gt;</span> starting January 2025.<span class="kw">&lt;/p&gt;</span>
+
+<span class="cm">&lt;!-- Revision tracking --&gt;</span>
+<span class="kw">&lt;p&gt;</span>Rate: <span class="kw">&lt;del&gt;</span>$50/hr<span class="kw">&lt;/del&gt;</span> <span class="kw">&lt;ins&gt;</span>$65/hr<span class="kw">&lt;/ins&gt;</span><span class="kw">&lt;/p&gt;</span>
+
+<span class="cm">&lt;!-- Progress bar --&gt;</span>
+<span class="kw">&lt;label&gt;</span>Profile completion:<span class="kw">&lt;/label&gt;</span>
+<span class="kw">&lt;progress</span> <span class="attr">value</span>=<span class="val">"85"</span> <span class="attr">max</span>=<span class="val">"100"</span><span class="kw">&gt;</span>85%<span class="kw">&lt;/progress&gt;</span>
+
+<span class="cm">&lt;!-- Scalar meter --&gt;</span>
+<span class="kw">&lt;label&gt;</span>JavaScript skill:<span class="kw">&lt;/label&gt;</span>
+<span class="kw">&lt;meter</span> <span class="attr">value</span>=<span class="val">"9"</span> <span class="attr">min</span>=<span class="val">"0"</span> <span class="attr">max</span>=<span class="val">"10"</span><span class="kw">&gt;</span>9/10<span class="kw">&lt;/meter&gt;</span>
+
+<span class="cm">&lt;!-- Keyboard shortcut --&gt;</span>
+<span class="kw">&lt;p&gt;</span>Press <span class="kw">&lt;kbd&gt;</span>Ctrl<span class="kw">&lt;/kbd&gt;</span> + <span class="kw">&lt;kbd&gt;</span>K<span class="kw">&lt;/kbd&gt;</span> to search.<span class="kw">&lt;/p&gt;</span>
+
+<span class="cm">&lt;!-- Datalist --&gt;</span>
+<span class="kw">&lt;input</span> <span class="attr">list</span>=<span class="val">"techs"</span> <span class="attr">placeholder</span>=<span class="val">"Search tech..."</span><span class="kw">&gt;</span>
+<span class="kw">&lt;datalist</span> <span class="attr">id</span>=<span class="val">"techs"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;option</span> <span class="attr">value</span>=<span class="val">"HTML"</span><span class="kw">&gt;&lt;/option&gt;</span>
+  <span class="kw">&lt;option</span> <span class="attr">value</span>=<span class="val">"CSS"</span><span class="kw">&gt;&lt;/option&gt;</span>
+  <span class="kw">&lt;option</span> <span class="attr">value</span>=<span class="val">"JavaScript"</span><span class="kw">&gt;&lt;/option&gt;</span>
+<span class="kw">&lt;/datalist&gt;</span>
+        </div>
+        <ul class="checklist">
+          <li>Use &lt;mark&gt; to highlight your availability status</li>
+          <li>Use &lt;del&gt; and &lt;ins&gt; to show a rate/price update</li>
+          <li>Add &lt;progress value="x" max="100"&gt; for profile completion</li>
+          <li>Add &lt;meter&gt; for at least one skill rating</li>
+          <li>Use &lt;kbd&gt; to show a keyboard shortcut tip</li>
+          <li>Add &lt;datalist&gt; with an &lt;input list="id"&gt;</li>
+        </ul>
+        <button class="complete-btn" onclick="markDone('task-10', this)">✓ Mark as Complete</button>
+      </div>
+    </div>
+
+  </div><!-- /tasks-container -->
+</div><!-- /project panel -->
+
+
+<!-- ══════════════════════════════
+     PANEL 3 — QUICK REF
+══════════════════════════════ -->
+<div class="panel" id="quickref">
+  <div class="page-header">
+    <div class="eyebrow">// At a Glance</div>
+    <h1>Quick Reference Table</h1>
+    <p>All major HTML tags with category, description, and a usage note. Categories: <span style="color:#4af0b0">S</span>=Semantic &nbsp;<span style="color:#f0e040">T</span>=Text &nbsp;<span style="color:#ff9d7a">F</span>=Form &nbsp;<span style="color:#c084fc">M</span>=Media &nbsp;<span style="color:#f87171">D</span>=Deprecated &nbsp;<span style="color:#60a5fa">E</span>=Embedded</p>
+  </div>
+  <div class="ref-section">
+    <table class="ref-table">
+      <thead>
+        <tr>
+          <th>Tag</th>
+          <th>Category</th>
+          <th>Description</th>
+          <th>Key Attribute(s)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="t">&lt;!DOCTYPE html&gt;</td><td><span class="cat s">S</span></td><td>Document type declaration</td><td>—</td></tr>
+        <tr><td class="t">&lt;html&gt;</td><td><span class="cat s">S</span></td><td>Root of HTML document</td><td>lang</td></tr>
+        <tr><td class="t">&lt;head&gt;</td><td><span class="cat s">S</span></td><td>Machine-readable metadata container</td><td>—</td></tr>
+        <tr><td class="t">&lt;body&gt;</td><td><span class="cat s">S</span></td><td>Visible page content</td><td>—</td></tr>
+        <tr><td class="t">&lt;meta&gt;</td><td><span class="cat s">S</span></td><td>Page metadata</td><td>name, content, charset</td></tr>
+        <tr><td class="t">&lt;title&gt;</td><td><span class="cat s">S</span></td><td>Browser tab title</td><td>—</td></tr>
+        <tr><td class="t">&lt;link&gt;</td><td><span class="cat s">S</span></td><td>External resource link</td><td>rel, href, type</td></tr>
+        <tr><td class="t">&lt;script&gt;</td><td><span class="cat e">E</span></td><td>Inline or external JS</td><td>src, defer, async</td></tr>
+        <tr><td class="t">&lt;style&gt;</td><td><span class="cat s">S</span></td><td>Inline CSS styles</td><td>—</td></tr>
+        <tr><td class="t">&lt;header&gt;</td><td><span class="cat s">S</span></td><td>Introductory content or nav</td><td>—</td></tr>
+        <tr><td class="t">&lt;nav&gt;</td><td><span class="cat s">S</span></td><td>Navigation links block</td><td>—</td></tr>
+        <tr><td class="t">&lt;main&gt;</td><td><span class="cat s">S</span></td><td>Primary page content (one per page)</td><td>—</td></tr>
+        <tr><td class="t">&lt;section&gt;</td><td><span class="cat s">S</span></td><td>Thematic grouping with heading</td><td>—</td></tr>
+        <tr><td class="t">&lt;article&gt;</td><td><span class="cat s">S</span></td><td>Independently distributable content</td><td>—</td></tr>
+        <tr><td class="t">&lt;aside&gt;</td><td><span class="cat s">S</span></td><td>Tangentially related content / sidebar</td><td>—</td></tr>
+        <tr><td class="t">&lt;footer&gt;</td><td><span class="cat s">S</span></td><td>Footer for page or section</td><td>—</td></tr>
+        <tr><td class="t">&lt;div&gt;</td><td><span class="cat s">S</span></td><td>Generic block-level container</td><td>class, id</td></tr>
+        <tr><td class="t">&lt;span&gt;</td><td><span class="cat t">T</span></td><td>Generic inline container</td><td>class, id</td></tr>
+        <tr><td class="t">&lt;h1&gt;–&lt;h6&gt;</td><td><span class="cat t">T</span></td><td>Heading levels 1–6</td><td>—</td></tr>
+        <tr><td class="t">&lt;p&gt;</td><td><span class="cat t">T</span></td><td>Paragraph of text</td><td>—</td></tr>
+        <tr><td class="t">&lt;br&gt;</td><td><span class="cat t">T</span></td><td>Line break (void element)</td><td>—</td></tr>
+        <tr><td class="t">&lt;hr&gt;</td><td><span class="cat t">T</span></td><td>Thematic break / divider</td><td>—</td></tr>
+        <tr><td class="t">&lt;strong&gt;</td><td><span class="cat t">T</span></td><td>Strong importance (bold)</td><td>—</td></tr>
+        <tr><td class="t">&lt;em&gt;</td><td><span class="cat t">T</span></td><td>Emphasis (italic)</td><td>—</td></tr>
+        <tr><td class="t">&lt;mark&gt;</td><td><span class="cat t">T</span></td><td>Highlighted / relevant text</td><td>—</td></tr>
+        <tr><td class="t">&lt;small&gt;</td><td><span class="cat t">T</span></td><td>Fine print, secondary info</td><td>—</td></tr>
+        <tr><td class="t">&lt;del&gt;</td><td><span class="cat t">T</span></td><td>Deleted / removed text</td><td>cite, datetime</td></tr>
+        <tr><td class="t">&lt;ins&gt;</td><td><span class="cat t">T</span></td><td>Inserted / new text</td><td>cite, datetime</td></tr>
+        <tr><td class="t">&lt;sup&gt;</td><td><span class="cat t">T</span></td><td>Superscript text</td><td>—</td></tr>
+        <tr><td class="t">&lt;sub&gt;</td><td><span class="cat t">T</span></td><td>Subscript text</td><td>—</td></tr>
+        <tr><td class="t">&lt;abbr&gt;</td><td><span class="cat t">T</span></td><td>Abbreviation with tooltip</td><td>title</td></tr>
+        <tr><td class="t">&lt;cite&gt;</td><td><span class="cat t">T</span></td><td>Reference to a creative work</td><td>—</td></tr>
+        <tr><td class="t">&lt;blockquote&gt;</td><td><span class="cat t">T</span></td><td>Extended quotation block</td><td>cite</td></tr>
+        <tr><td class="t">&lt;q&gt;</td><td><span class="cat t">T</span></td><td>Short inline quotation</td><td>cite</td></tr>
+        <tr><td class="t">&lt;pre&gt;</td><td><span class="cat t">T</span></td><td>Preformatted text (preserves whitespace)</td><td>—</td></tr>
+        <tr><td class="t">&lt;code&gt;</td><td><span class="cat t">T</span></td><td>Inline code fragment</td><td>—</td></tr>
+        <tr><td class="t">&lt;kbd&gt;</td><td><span class="cat t">T</span></td><td>Keyboard input representation</td><td>—</td></tr>
+        <tr><td class="t">&lt;samp&gt;</td><td><span class="cat t">T</span></td><td>Computer program sample output</td><td>—</td></tr>
+        <tr><td class="t">&lt;var&gt;</td><td><span class="cat t">T</span></td><td>Variable in math or code</td><td>—</td></tr>
+        <tr><td class="t">&lt;time&gt;</td><td><span class="cat t">T</span></td><td>Machine-readable time / date</td><td>datetime</td></tr>
+        <tr><td class="t">&lt;address&gt;</td><td><span class="cat s">S</span></td><td>Contact information for owner</td><td>—</td></tr>
+        <tr><td class="t">&lt;a&gt;</td><td><span class="cat t">T</span></td><td>Hyperlink anchor</td><td>href, target, rel</td></tr>
+        <tr><td class="t">&lt;ul&gt;</td><td><span class="cat t">T</span></td><td>Unordered (bulleted) list</td><td>—</td></tr>
+        <tr><td class="t">&lt;ol&gt;</td><td><span class="cat t">T</span></td><td>Ordered (numbered) list</td><td>type, start</td></tr>
+        <tr><td class="t">&lt;li&gt;</td><td><span class="cat t">T</span></td><td>List item</td><td>value</td></tr>
+        <tr><td class="t">&lt;dl&gt;</td><td><span class="cat t">T</span></td><td>Description list</td><td>—</td></tr>
+        <tr><td class="t">&lt;dt&gt;</td><td><span class="cat t">T</span></td><td>Description term</td><td>—</td></tr>
+        <tr><td class="t">&lt;dd&gt;</td><td><span class="cat t">T</span></td><td>Description details</td><td>—</td></tr>
+        <tr><td class="t">&lt;table&gt;</td><td><span class="cat s">S</span></td><td>Table container</td><td>—</td></tr>
+        <tr><td class="t">&lt;caption&gt;</td><td><span class="cat s">S</span></td><td>Table caption / title</td><td>—</td></tr>
+        <tr><td class="t">&lt;thead&gt;</td><td><span class="cat s">S</span></td><td>Table header group</td><td>—</td></tr>
+        <tr><td class="t">&lt;tbody&gt;</td><td><span class="cat s">S</span></td><td>Table body group</td><td>—</td></tr>
+        <tr><td class="t">&lt;tfoot&gt;</td><td><span class="cat s">S</span></td><td>Table footer group</td><td>—</td></tr>
+        <tr><td class="t">&lt;tr&gt;</td><td><span class="cat s">S</span></td><td>Table row</td><td>—</td></tr>
+        <tr><td class="t">&lt;th&gt;</td><td><span class="cat s">S</span></td><td>Table header cell</td><td>scope, colspan, rowspan</td></tr>
+        <tr><td class="t">&lt;td&gt;</td><td><span class="cat s">S</span></td><td>Table data cell</td><td>colspan, rowspan</td></tr>
+        <tr><td class="t">&lt;img&gt;</td><td><span class="cat m">M</span></td><td>Embed image (void)</td><td>src, alt, width, height</td></tr>
+        <tr><td class="t">&lt;picture&gt;</td><td><span class="cat m">M</span></td><td>Responsive image container</td><td>—</td></tr>
+        <tr><td class="t">&lt;source&gt;</td><td><span class="cat m">M</span></td><td>Media resource (video/audio/picture)</td><td>src, srcset, media, type</td></tr>
+        <tr><td class="t">&lt;video&gt;</td><td><span class="cat m">M</span></td><td>HTML5 video player</td><td>src, controls, autoplay, loop</td></tr>
+        <tr><td class="t">&lt;audio&gt;</td><td><span class="cat m">M</span></td><td>HTML5 audio player</td><td>src, controls, loop</td></tr>
+        <tr><td class="t">&lt;iframe&gt;</td><td><span class="cat e">E</span></td><td>Inline frame (embed external page)</td><td>src, width, height, allowfullscreen</td></tr>
+        <tr><td class="t">&lt;canvas&gt;</td><td><span class="cat e">E</span></td><td>Drawing surface via JS</td><td>width, height</td></tr>
+        <tr><td class="t">&lt;svg&gt;</td><td><span class="cat e">E</span></td><td>Scalable vector graphics</td><td>viewBox, width</td></tr>
+        <tr><td class="t">&lt;figure&gt;</td><td><span class="cat s">S</span></td><td>Self-contained media content</td><td>—</td></tr>
+        <tr><td class="t">&lt;figcaption&gt;</td><td><span class="cat s">S</span></td><td>Caption for &lt;figure&gt;</td><td>—</td></tr>
+        <tr><td class="t">&lt;form&gt;</td><td><span class="cat f">F</span></td><td>Interactive form container</td><td>action, method, enctype</td></tr>
+        <tr><td class="t">&lt;input&gt;</td><td><span class="cat f">F</span></td><td>Form input field (many types)</td><td>type, name, id, value, required</td></tr>
+        <tr><td class="t">&lt;label&gt;</td><td><span class="cat f">F</span></td><td>Label for form element</td><td>for</td></tr>
+        <tr><td class="t">&lt;button&gt;</td><td><span class="cat f">F</span></td><td>Clickable button</td><td>type (submit/reset/button)</td></tr>
+        <tr><td class="t">&lt;select&gt;</td><td><span class="cat f">F</span></td><td>Dropdown selection list</td><td>name, multiple, size</td></tr>
+        <tr><td class="t">&lt;option&gt;</td><td><span class="cat f">F</span></td><td>Option in &lt;select&gt; or &lt;datalist&gt;</td><td>value, selected</td></tr>
+        <tr><td class="t">&lt;optgroup&gt;</td><td><span class="cat f">F</span></td><td>Group of &lt;option&gt; elements</td><td>label</td></tr>
+        <tr><td class="t">&lt;textarea&gt;</td><td><span class="cat f">F</span></td><td>Multi-line text input</td><td>rows, cols, name</td></tr>
+        <tr><td class="t">&lt;fieldset&gt;</td><td><span class="cat f">F</span></td><td>Group related form controls</td><td>disabled</td></tr>
+        <tr><td class="t">&lt;legend&gt;</td><td><span class="cat f">F</span></td><td>Caption for &lt;fieldset&gt;</td><td>—</td></tr>
+        <tr><td class="t">&lt;datalist&gt;</td><td><span class="cat f">F</span></td><td>Predefined options for input</td><td>id</td></tr>
+        <tr><td class="t">&lt;output&gt;</td><td><span class="cat f">F</span></td><td>Result of a calculation</td><td>for, name</td></tr>
+        <tr><td class="t">&lt;progress&gt;</td><td><span class="cat f">F</span></td><td>Task completion indicator</td><td>value, max</td></tr>
+        <tr><td class="t">&lt;meter&gt;</td><td><span class="cat f">F</span></td><td>Scalar measurement gauge</td><td>value, min, max, low, high</td></tr>
+        <tr><td class="t">&lt;details&gt;</td><td><span class="cat s">S</span></td><td>Expandable disclosure widget</td><td>open</td></tr>
+        <tr><td class="t">&lt;summary&gt;</td><td><span class="cat s">S</span></td><td>Visible heading for &lt;details&gt;</td><td>—</td></tr>
+        <tr><td class="t">&lt;dialog&gt;</td><td><span class="cat s">S</span></td><td>Native modal/dialog box</td><td>open</td></tr>
+        <tr><td class="t">&lt;template&gt;</td><td><span class="cat s">S</span></td><td>Client-side HTML template</td><td>—</td></tr>
+        <tr><td class="t">&lt;font&gt;</td><td><span class="cat d">D</span></td><td>⚠ Deprecated — use CSS</td><td>—</td></tr>
+        <tr><td class="t">&lt;center&gt;</td><td><span class="cat d">D</span></td><td>⚠ Deprecated — use CSS</td><td>—</td></tr>
+        <tr><td class="t">&lt;marquee&gt;</td><td><span class="cat d">D</span></td><td>⚠ Deprecated — scrolling text</td><td>—</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div><!-- /quickref panel -->
+
+<script>
+  function showPanel(id, btn) {
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.top-nav button').forEach(b => b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  function toggleTask(id) {
+    const card = document.getElementById(id);
+    card.classList.toggle('open');
+  }
+
+  function markDone(id, btn) {
+    const card = document.getElementById(id);
+    card.classList.add('completed');
+    card.querySelector('.task-status').textContent = 'Done ✓';
+    card.querySelector('.task-status').className = 'task-status done';
+    // Update checklist
+    card.querySelectorAll('.checklist li').forEach(li => {
+      li.style.color = '#4af0b0';
+      li.style.textDecoration = 'line-through';
+    });
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const total = 10;
+    const done = document.querySelectorAll('.task-card.completed').length;
+    document.getElementById('prog-text').textContent = `${done} / ${total} tasks completed`;
+    document.getElementById('pbar').style.width = (done / total * 100) + '%';
+  }
+</script>
+</body>
+</html>
